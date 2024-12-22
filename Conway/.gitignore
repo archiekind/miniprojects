@@ -1,12 +1,30 @@
-*.hi          # Interface files
-*.o           # Object files
-*.dyn_hi      # Dynamic interface files
-*.dyn_o       # Dynamic object files
-*.prof        # Profiling files
-*.eventlog    # Event log files
-*.tix         # Test coverage files
+# Haskell
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+*.prof
+*.eventlog
+*.tix
 
-dist-newstyle/  # Build artifacts directory for Cabal (modern builds)
-dist/           # Build artifacts directory for older Cabal versions
-.cabal-sandbox/ # Cabal sandbox directory (deprecated)
-cabal.sandbox.config  # Cabal sandbox configuration file (deprecated)
+# Cabal
+dist-newstyle/
+dist/
+.cabal-sandbox/
+cabal.sandbox.config
+
+# Stack (optional)
+.stack-work/
+
+# IDEs
+.vscode/
+.idea/
+*~
+\#*\#
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
