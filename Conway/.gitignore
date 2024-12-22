@@ -1,0 +1,12 @@
+*.hi          # Interface files
+*.o           # Object files
+*.dyn_hi      # Dynamic interface files
+*.dyn_o       # Dynamic object files
+*.prof        # Profiling files
+*.eventlog    # Event log files
+*.tix         # Test coverage files
+
+dist-newstyle/  # Build artifacts directory for Cabal (modern builds)
+dist/           # Build artifacts directory for older Cabal versions
+.cabal-sandbox/ # Cabal sandbox directory (deprecated)
+cabal.sandbox.config  # Cabal sandbox configuration file (deprecated)
