@@ -5,7 +5,6 @@ import Network.Wai.Handler.Warp (run)
 import Network.HTTP.Types (status200)
 import Paths_Server (getDataFileName)
 
--- Define the application (request handler)
 app :: Application
 -- app _ respond = respond $ responseLBS status200 [("Content-Type", "text/plain")] "Hello, World!"
 app _ respond = do
