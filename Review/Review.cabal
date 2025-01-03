@@ -16,17 +16,17 @@ data-files: static/*
 common warnings
     ghc-options: -Wall
 
-executable Server
+executable Review
     import:           warnings
     main-is:          Main.hs
-    other-modules:    Paths_Server
+    other-modules:    Paths_Review
     -- other-extensions:
     build-depends:    base ^>=4.17.2.1,
                       warp,
                       wai,
                       http-types,
                       sqlite-simple >=0.4,
-                      persistent-sqlite >=2.13,
-                      persistent >=2.13
+                      mustache
+
     hs-source-dirs:   app
     default-language: Haskell2010
