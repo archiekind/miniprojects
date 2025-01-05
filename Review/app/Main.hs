@@ -32,7 +32,9 @@ main = do
 
 getBooks :: IO [String]
 getBooks = do
-    dbName <- getDataFileName "data/books.db"
+    let dbName = "data/books.db"
     database <- open dbName
-    execute_ database "CREATE TABLE IF NOT EXISTS book (name VARCHAR(40) PRIMARY KEY)"
-    query_ database "SELECT * FROM book" :: IO [String]
+    execute_ database "CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, author NOT NULL);"
+    strs <- query_ database "SELECT title FROM books" :: IO [Only String]
+    close database
+    return (map fromOnly strs)

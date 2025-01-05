@@ -6,12 +6,16 @@
 *.prof
 *.eventlog
 *.tix
+*/test.hs
 
 # Cabal
 dist-newstyle/
 dist/
 .cabal-sandbox/
 cabal.sandbox.config
+
+# Databases
+*.db
 
 # Stack (optional)
 .stack-work/
