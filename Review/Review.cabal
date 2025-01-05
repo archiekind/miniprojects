@@ -24,6 +24,7 @@ executable Review
     build-depends:    base ^>=4.17.2.1,
                       warp,
                       wai,
+                      wai-extra,
                       http-types,
                       sqlite-simple >=0.4,
                       stache,
