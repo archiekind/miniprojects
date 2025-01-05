@@ -15,17 +15,17 @@ import qualified Data.Text.Encoding as E
 import Data.Text (unpack)
 
 app :: Application
--- app _ respond = respond $ responseLBS status200 [("Content-Type", "text/plain")] "Hello, World!"
 app request respond = case (requestMethod request, rawPathInfo request) of
     ("POST", _) -> do
         (params, _) <- parseRequestBody lbsBackEnd request
 
         let title = fmap E.decodeUtf8 (lookup "title" params)
         let author = fmap E.decodeUtf8 (lookup "author" params)
-        case (title, author) of
-            (Just t, Just a) -> do 
-                addBook (unpack t) (unpack a)
-            (_, _) -> do 
+        let review = fmap E.decodeUtf8 (lookup "review" params)
+        case (title, author, review) of
+            (Just t, Just a, Just r) -> do 
+                addBook (unpack t) (unpack a) (unpack r)
+            (_, _, _) -> do 
                 pure ()
         
         respond $ responseLBS status302 [("Location", "http:")] ""
@@ -39,28 +39,27 @@ app request respond = case (requestMethod request, rawPathInfo request) of
         let renderedHTML = renderMustache template templateData
         respond $ responseLBS status200 [("Content-Type", "text/html")] (LE.encodeUtf8 renderedHTML)
 
-
---     -- respond $ responseFile status200 [("Content-Type", "text/html")] filename Nothing
-
 -- Main function to start the server
 main :: IO ()
 main = do
     putStrLn "Starting server on http://127.0.0.1:8080"
     run 8080 app
 
+-- return the books from the database
 getBooks :: IO [String]
 getBooks = do
     let dbName = "data/books.db"
     database <- open dbName
-    execute_ database "CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, author TEXT NOT NULL);"
+    execute_ database "CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, author TEXT NOT NULL, review TEXT NOT NULL);"
     strs <- query_ database "SELECT title FROM books" :: IO [Only String]
     close database
     return (map fromOnly strs)
 
-addBook :: String -> String -> IO ()
-addBook title author = do
+-- add a book to the database
+addBook :: String -> String -> String -> IO ()
+addBook title author review = do
     let dbName = "data/books.db"
     database <- open dbName
-    execute_ database "CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, author TEXT NOT NULL);"
-    execute database "INSERT INTO books(title, author) values(?, ?);" (title, author)
+    execute_ database "CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, author TEXT NOT NULL, review TEXT NOT NULL);"
+    execute database "INSERT INTO books(title, author, review) values(?, ?, ?);" (title, author, review)
     close database
