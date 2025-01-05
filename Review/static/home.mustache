@@ -1,6 +1,104 @@
 <!DOCTYPE html>
+<head>
+<style>
+/* Global styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    {{! background: linear-gradient(135deg, #ff9a9e, #fad0c4); }}
+    background-color: #fad0c4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #2d3748;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #4a5568;
+    margin-bottom: 10px;
+    display: inline-block;
+    padding-bottom: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Form styles */
+form {
+    margin: 20px auto;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #ffffffdd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2d3748;
+}
+
+input[type="text"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 4px rgba(255, 107, 107, 0.5);
+}
+
+input[type="submit"] {
+    background-color: #ff6b6b;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #e65a5a;
+}
+
+h5 {
+    padding: 10px;
+    color: #4a5568;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    form,
+    .book-list {
+        padding: 15px;
+    }
+}
+</style>
+</head>
 <body>
-  <h1>Hello World</h1>
   <h2>Create Review</h2>
   <form method='post'>
     <label for='title'>Title: </label>
@@ -13,6 +111,6 @@
   </form>
   <h2>Book List</h2>
   {{#books}}
-  <p>{{book}}</p>
+  <h5>{{title}} {{author}} {{review}}</h5>
   {{/books}}
 </body>

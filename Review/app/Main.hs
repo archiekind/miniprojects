@@ -7,7 +7,7 @@ import Network.Wai.Parse (parseRequestBody, lbsBackEnd)
 import Paths_Review (getDataFileName)
 
 import Database.SQLite.Simple
-    ( Only(fromOnly), open, execute_, execute, query_, close)
+    (open, execute_, execute, query_, close)
 import Text.Mustache
 import Data.Aeson (object, (.=))
 import qualified Data.Text.Lazy.Encoding as LE
@@ -34,10 +34,13 @@ app request respond = case (requestMethod request, rawPathInfo request) of
         filename <- getDataFileName "static/home.mustache"
         template <- compileMustacheFile filename
         books <- getBooks
-        let bookObj = map (\title -> object ["book" .= title]) books
-        let templateData = object ["books" .= bookObj]  
+        let titleObj = map f books
+        let templateData = object ["books" .= titleObj]
         let renderedHTML = renderMustache template templateData
         respond $ responseLBS status200 [("Content-Type", "text/html")] (LE.encodeUtf8 renderedHTML)
+
+            where 
+                f (title, author, review) = object ["title" .= title, "author" .= author, "review" .= review]
 
 -- Main function to start the server
 main :: IO ()
@@ -46,14 +49,14 @@ main = do
     run 8080 app
 
 -- return the books from the database
-getBooks :: IO [String]
+getBooks :: IO [(String, String, String)]
 getBooks = do
     let dbName = "data/books.db"
     database <- open dbName
     execute_ database "CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, author TEXT NOT NULL, review TEXT NOT NULL);"
-    strs <- query_ database "SELECT title FROM books" :: IO [Only String]
+    strs <- query_ database "SELECT title, author, review FROM books" :: IO [(String, String, String)]
     close database
-    return (map fromOnly strs)
+    pure strs
 
 -- add a book to the database
 addBook :: String -> String -> String -> IO ()
