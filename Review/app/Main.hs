@@ -1,27 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import Network.Wai (Application, responseLBS, responseFile)
+import Network.Wai (Application, responseLBS) -- responseFile
 import Network.Wai.Handler.Warp (run)
 import Network.HTTP.Types (status200)
 import Paths_Review (getDataFileName)
 
 import Database.SQLite.Simple
-import Text.Mustache (localAutomaticCompile)
-
-data Book = MkBook String
+import Text.Mustache
+import Data.Aeson (object, (.=))
+import Data.Text.Lazy.Encoding (encodeUtf8)
 
 app :: Application
 -- app _ respond = respond $ responseLBS status200 [("Content-Type", "text/plain")] "Hello, World!"
-app request respond = do
+app _ respond = do
     filename <- getDataFileName "static/home.mustache"
-    -- template <- filename
-    let searchspace = ['.']
+    template <- compileMustacheFile filename
     books <- getBooks
-    let bookList = map (\name -> MkBook name)
-    let templateData = object ["books" .= bookList]
+    let bookObj = map (\title -> object ["book" .= title]) books
+    let templateData = object ["books" .= bookObj]  
     let renderedHTML = renderMustache template templateData
-    respond $ responseLBS status200 [("Content-Type", "text/html")] renderedHTML
-    -- respond $ responseLBS status200 [("Content-Type", "text/plain")] "Hello World"
+    respond $ responseLBS status200 [("Content-Type", "text/html")] (encodeUtf8 renderedHTML)
     -- respond $ responseFile status200 [("Content-Type", "text/html")] filename Nothing
 
 -- Main function to start the server
