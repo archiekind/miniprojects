@@ -15,7 +15,8 @@ dist/
 cabal.sandbox.config
 
 # Databases
-*.db
+# *.db
+# As this website will never be used, I feel safe uploading the database which will contain examples for the webpage.
 
 # Stack (optional)
 .stack-work/
