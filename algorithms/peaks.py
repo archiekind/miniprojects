@@ -6,12 +6,14 @@ Complexity is O(log(n))
 
 import math
 
+# example 2d array
 array = [[1, 1, 1, 4, 5],
         [1, 2, 1, 2, 1],
         [1, 1, 1, 2, 3],
         [1, 1, 1, 2, 3],
         [1, 1, 1, 2, 3],]
 
+# check if the array index is a peak
 def is_peak(array, i, j):
     rows = len(array)
     cols = len(array[0])
@@ -31,6 +33,7 @@ def is_peak(array, i, j):
     
     return True
 
+# find the peak in the array given by the boundaries
 def find_peak(array, top, bottom, left, right):
 
     rows = bottom - top
@@ -40,7 +43,7 @@ def find_peak(array, top, bottom, left, right):
     j = math.floor(cols / 2)
 
     if (is_peak(array, top + i, left + j)):
-        return array[top + i][left + j]
+        return (top + i, left + j, array[top + i][left + j])
     else:
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         for k in range(4):
@@ -58,5 +61,5 @@ def find_peak(array, top, bottom, left, right):
             if (k == 3):
               return find_peak(array, top, bottom, left + j, right)
         
-
-print(find_peak(array, 0, len(array), 0, len(array[0])))
+(i, j, peak_value) = find_peak(array, 0, len(array), 0, len(array[0]))
+print(f"Peak found at ({i}, {j}) with value {peak_value}")
