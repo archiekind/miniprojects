@@ -6,7 +6,11 @@ To compile the project, run:
 ```
 clang -o emulator emulator.c -lm
 ```
-
+and then
+```
+./emulator
+```
+to execute the program.
 
 # Instruction Set
 
