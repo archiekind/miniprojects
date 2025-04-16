@@ -35,3 +35,5 @@ cabal.sandbox.config
 .DS_Store
 Thumbs.db
 desktop.ini
+
+Princeton/emulator

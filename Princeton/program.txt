@@ -1,0 +1,28 @@
+220017 get the current sum
+300018 increment sum - this instruction must be updated
+210017 store back in accumulated value
+220001 get the instruction at location 1
+300016 increment the value of the instruction
+210001 store the instruction back in location 1
+200001 load 1 into A
+300015 increment loop index by 1
+210015 store incremented index back in memory
+220014 store size of array - 1 in A
+310015 size of array - 1 - loop increment
+420000 iterate loop again if not at end
+220017 load the accumulated value into A
+100000 halt
+10 size of array
+0 loop index
+1 loop increment
+0 accumulated value
+1 beginning of X array
+2
+3
+4
+5
+6
+7
+8
+9
+10
